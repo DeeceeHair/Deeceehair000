@@ -1,38 +1,39 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --background: #fff8fb;
+  --foreground: #1f1f24;
+  --rose-50: #fff0f6;
+  --rose-100: #ffe2ed;
+  --rose-200: #ffc7d9;
+  --rose-500: #f25c8d;
+  --rose-600: #e44f7f;
+  --neutral-900: #16161d;
+  --card-shadow: 0 30px 60px -30px rgba(242, 92, 141, 0.45);
 }
 
 body {
-  background: var(--background);
+  background: radial-gradient(circle at top left, rgba(255, 240, 246, 0.9), transparent 55%),
+    radial-gradient(circle at bottom right, rgba(255, 206, 226, 0.45), transparent 55%),
+    var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-sans, Arial, Helvetica, sans-serif);
   overflow-x: hidden;
   font-size: 16px;
+  letter-spacing: -0.01em;
 }
 
 html {
   overflow-x: hidden;
   font-size: 16px;
+  scroll-behavior: smooth;
 }
 
-/* Better scaling for smaller laptop screens */
+::selection {
+  background: var(--rose-200);
+  color: var(--neutral-900);
+}
+
 @media (min-width: 1024px) and (max-width: 1366px) {
   html {
     font-size: 15px;
@@ -48,7 +49,7 @@ html {
 @keyframes slideDown {
   from {
     opacity: 0;
-    transform: translateY(-10px);
+    transform: translateY(-6px);
   }
   to {
     opacity: 1;
@@ -56,6 +57,53 @@ html {
   }
 }
 
+@keyframes floatSoft {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(0, -12px, 0) scale(1.02);
+  }
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@keyframes glowPulse {
+  0% {
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 0.9;
+  }
+  100% {
+    opacity: 0.4;
+  }
+}
+
+@keyframes fadeUp {
+  0% {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .animate-slideDown {
   animation: slideDown 0.3s ease-out;
+}
+
+.animate-float-soft {
+  animation: floatSoft 10s ease-in-out infinite;
+}
+
+.animate-glow-pulse {
+  animation: glowPulse 6s ease-in-out infinite;
+}
+
+.animate-fade-up {
+  animation: fadeUp 0.7s ease-out both;
 }

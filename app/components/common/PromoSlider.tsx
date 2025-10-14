@@ -10,14 +10,14 @@ export const PromoSlider = ({ messages }: { messages: Array<{ text: string; icon
   }, [messages]);
 
   return (
-    <div className="bg-gradient-to-r from-rose-600 via-rose-500 to-rose-600 py-3 overflow-hidden relative w-full">
+    <div className="bg-gradient-to-r from-rose-100 via-rose-50 to-rose-100 py-3 overflow-hidden relative w-full border-b border-rose-100/60">
       <div className="relative overflow-hidden w-full">
         <div className="flex animate-marquee whitespace-nowrap">
           {trackMessages.map((msg, idx) => {
             const Icon = msg.icon;
             return (
-              <span key={idx} className="text-xs sm:text-sm font-medium text-white mx-6 sm:mx-10 inline-flex items-center gap-2">
-                <Icon className="w-4 h-4" />
+              <span key={idx} className="text-xs sm:text-sm font-medium text-rose-600 mx-6 sm:mx-10 inline-flex items-center gap-2">
+                <Icon className="w-4 h-4 text-rose-500" />
                 {msg.text}
               </span>
             );

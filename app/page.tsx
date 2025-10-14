@@ -472,166 +472,318 @@ function DeeceeHairApp(): React.ReactElement {
 
   const HomePage = useCallback(() => (
     <div className="w-full">
-      <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-        {heroSlides.map((slide, index) => (
-          <div key={index} className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${index === currentSlide ? "opacity-100 z-10" : "opacity-0 z-0"}`} style={{ backgroundImage: `url('${slide.image}')`, backgroundSize: "cover", backgroundPosition: "center" }} />
-        ))}
-        <div className="absolute inset-0 bg-gradient-to-br from-rose-600/40 via-transparent to-rose-600/40"></div>
-        <div className="relative z-20 w-full px-4 sm:px-6 lg:px-8 text-center">
-          <div className="transform transition-all duration-700">
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-white mb-4 md:mb-6 tracking-tight">
-              {heroSlides[currentSlide].title}
-              <span className="block text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl mt-2 font-light">{heroSlides[currentSlide].subtitle}</span>
-            </h1>
-            <p className="text-sm sm:text-base md:text-lg lg:text-xl text-white/90 mb-6 md:mb-8 max-w-2xl mx-auto px-4">
-              {heroSlides[currentSlide].description}
-            </p>
-          </div>
-          <div className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center px-4">
-            <button onClick={() => navigateTo("shop")} className="bg-white text-rose-600 px-6 sm:px-7 md:px-8 py-2.5 sm:py-3 md:py-3.5 lg:py-4 rounded-full font-semibold hover:bg-gray-100 transition transform hover:scale-105 shadow-lg text-sm md:text-base">
-              Shop Collection
-            </button>
-            <button onClick={() => navigateTo("appointment")} className="bg-transparent border-2 border-white text-white px-6 sm:px-7 md:px-8 py-2.5 sm:py-3 md:py-3.5 lg:py-4 rounded-full font-semibold hover:bg-white hover:text-rose-600 transition transform hover:scale-105 flex items-center justify-center gap-2 text-sm md:text-base">
-              <Calendar className="w-4 h-4 md:w-5 md:h-5" /> Book Consultation
-            </button>
-          </div>
-        </div>
-        <button onClick={() => setCurrentSlide((prev) => (prev - 1 + heroSlides.length) % heroSlides.length)} className="absolute left-2 sm:left-4 top-1/2 transform -translate-y-1/2 bg-white/20 backdrop-blur-sm text-white p-2 sm:p-3 rounded-full hover:bg-white/30 transition z-30">
-          <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6" />
-        </button>
-        <button onClick={() => setCurrentSlide((prev) => (prev + 1) % heroSlides.length)} className="absolute right-2 sm:right-4 top-1/2 transform -translate-y-1/2 bg-white/20 backdrop-blur-sm text-white p-2 sm:p-3 rounded-full hover:bg-white/30 transition z-30">
-          <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6" />
-        </button>
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex space-x-2 z-30">
-          {heroSlides.map((_, index) => (
-            <button key={index} onClick={() => setCurrentSlide(index)} className={`w-2 h-2 sm:w-3 sm:h-3 rounded-full transition-all ${index === currentSlide ? "bg-white w-6 sm:w-8" : "bg-white/50 hover:bg-white/70"}`} aria-label={`Slide ${index + 1}`} />
-          ))}
-        </div>
-      </section>
-
-      <section className="py-8 sm:py-12 md:py-16 lg:py-20 bg-white">
-        <div className="w-full px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-6 sm:mb-8 md:mb-10 lg:mb-12">
-            <h2 className="text-2xl sm:text-3xl md:text-3xl lg:text-4xl font-bold text-gray-900 mb-3 md:mb-4">Bestsellers</h2>
-            <p className="text-sm md:text-base text-gray-600 max-w-2xl mx-auto px-4">Our most loved products, trusted by thousands of customers</p>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 md:gap-6 lg:gap-8">
-            {products.filter(p => p.isBestseller).map((product) => (
-              <div key={product.id} className="group cursor-pointer rounded-2xl shadow-lg overflow-hidden bg-white hover:shadow-2xl transition-all duration-300" onClick={() => handleProductClick(product)}>
-                <div className="relative overflow-hidden">
-                  <img src={product.image} alt={product.name} className="w-full h-56 sm:h-64 md:h-72 lg:h-80 object-cover group-hover:scale-110 transition-transform duration-500" />
-                  <div className="absolute top-3 right-3 md:top-4 md:right-4 bg-rose-600 text-white px-2.5 py-1 md:px-3 md:py-1 rounded-full text-xs font-semibold flex items-center gap-1">
-                    <Star className="w-3 h-3 fill-current" /> Bestseller
-                  </div>
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                  <div className="absolute bottom-0 left-0 right-0 p-3 sm:p-4 md:p-5 lg:p-6">
-                    <h3 className="text-lg sm:text-xl md:text-xl lg:text-2xl font-bold text-white mb-1.5 md:mb-2 truncate">{product.name}</h3>
-                    <p className="text-white text-base md:text-lg font-semibold mb-1.5 md:mb-2">{convertPrice(product.price)}</p>
-                    <button className="text-white underline hover:no-underline text-xs sm:text-sm md:text-base">Shop Now →</button>
-                  </div>
-                </div>
+      <section className="px-4 sm:px-6 lg:px-8 pt-8 pb-16">
+        <div className="relative mx-auto max-w-7xl overflow-hidden rounded-3xl border border-rose-100/70 bg-gradient-to-br from-white via-rose-50/40 to-white shadow-[0_40px_120px_-80px_rgba(242,92,141,0.6)]">
+          <div className="absolute inset-0">
+            {heroSlides.map((slide, index) => (
+              <div
+                key={index}
+                className={`absolute inset-0 transition-opacity duration-1000 ${index === currentSlide ? "opacity-100" : "opacity-0"}`}
+              >
+                <img
+                  src={slide.image}
+                  alt={slide.title}
+                  className="h-full w-full object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-br from-white/85 via-white/70 to-rose-50/40" />
               </div>
             ))}
           </div>
-          <div className="text-center mt-8">
+
+          <div className="relative grid gap-10 p-8 sm:p-12 lg:grid-cols-[1.1fr_0.9fr] lg:p-16">
+            <div className="flex flex-col justify-between gap-12">
+              <div className="space-y-6">
+                <span className="inline-flex items-center gap-2 rounded-full bg-white/80 px-4 py-2 text-xs font-semibold uppercase tracking-[0.3em] text-rose-500">
+                  Tailored Luxury
+                </span>
+                <div className="space-y-4">
+                  <h1 className="text-3xl font-semibold tracking-tight text-gray-900 sm:text-4xl lg:text-5xl">
+                    {heroSlides[currentSlide].title}
+                  </h1>
+                  <p className="text-lg text-gray-600 sm:text-xl">
+                    {heroSlides[currentSlide].subtitle}
+                  </p>
+                  <p className="max-w-xl text-sm text-gray-500 sm:text-base">
+                    {heroSlides[currentSlide].description}
+                  </p>
+                </div>
+                <div className="flex flex-col gap-3 sm:flex-row">
+                  <button
+                    onClick={() => navigateTo("shop")}
+                    className="inline-flex items-center justify-center gap-2 rounded-full bg-rose-500 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-rose-200/70 transition-all hover:bg-rose-600 hover:shadow-rose-300"
+                  >
+                    Shop Collection
+                    <ChevronRight className="h-4 w-4" />
+                  </button>
+                  <button
+                    onClick={() => navigateTo("appointment")}
+                    className="inline-flex items-center justify-center gap-2 rounded-full border border-rose-200/80 bg-white/80 px-6 py-3 text-sm font-semibold text-rose-600 transition-all hover:border-rose-300 hover:bg-white"
+                  >
+                    <Calendar className="h-4 w-4" /> Book Consultation
+                  </button>
+                </div>
+              </div>
+
+              <div className="grid gap-4 sm:grid-cols-3">
+                {[
+                  { label: "Global Clients", value: "12k+" },
+                  { label: "Premium Styles", value: "60" },
+                  { label: "Care Specialists", value: "40" },
+                ].map((stat) => (
+                  <div key={stat.label} className="rounded-2xl border border-white/80 bg-white/70 p-4 text-center shadow-[0_14px_50px_-40px_rgba(242,92,141,0.7)]">
+                    <p className="text-2xl font-semibold text-rose-500">{stat.value}</p>
+                    <p className="text-xs uppercase tracking-[0.25em] text-gray-500">{stat.label}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="flex flex-col justify-between gap-8">
+              <div className="flex items-center justify-end gap-2">
+                <button
+                  onClick={() => setCurrentSlide((prev) => (prev - 1 + heroSlides.length) % heroSlides.length)}
+                  className="flex h-12 w-12 items-center justify-center rounded-full border border-rose-100 bg-white/80 text-rose-500 transition-all hover:border-rose-200 hover:text-rose-600"
+                  aria-label="Previous slide"
+                >
+                  <ChevronLeft className="h-5 w-5" />
+                </button>
+                <button
+                  onClick={() => setCurrentSlide((prev) => (prev + 1) % heroSlides.length)}
+                  className="flex h-12 w-12 items-center justify-center rounded-full border border-rose-100 bg-white/80 text-rose-500 transition-all hover:border-rose-200 hover:text-rose-600"
+                  aria-label="Next slide"
+                >
+                  <ChevronRight className="h-5 w-5" />
+                </button>
+              </div>
+
+              <div className="rounded-3xl border border-white/60 bg-white/80 p-6 shadow-[0_32px_80px_-60px_rgba(242,92,141,0.8)]">
+                <p className="text-sm font-semibold uppercase tracking-[0.3em] text-gray-500">Signature Experience</p>
+                <p className="mt-4 text-2xl font-semibold text-gray-900">
+                  Colour-matched, hand-crafted, delivered worldwide.
+                </p>
+                <ul className="mt-6 space-y-3 text-sm text-gray-600">
+                  <li className="flex items-center gap-2">
+                    <Sparkles className="h-4 w-4 text-rose-500" />
+                    Luxury 100% Remy hair, ethically sourced.
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <Truck className="h-4 w-4 text-rose-500" />
+                    Insured global delivery within 5-7 working days.
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <Shield className="h-4 w-4 text-rose-500" />
+                    30-day texture guarantee and concierge support.
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="px-4 pb-16 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-7xl">
+          <div className="grid gap-6 rounded-3xl border border-rose-100/60 bg-white/70 p-6 shadow-[0_28px_70px_-60px_rgba(242,92,141,0.7)] sm:grid-cols-3">
+            {[
+              {
+                title: "Virtual Consultation",
+                description: "Speak with our specialists for personalised texture and colour guidance.",
+                action: () => navigateTo("appointment"),
+                cta: "Schedule",
+              },
+              {
+                title: "Care & Maintenance",
+                description: "Detailed guides and products to keep your extensions radiant longer.",
+                action: () => navigateTo("contact"),
+                cta: "Get Advice",
+              },
+              {
+                title: "Custom Orders",
+                description: "Request bespoke blends crafted by our in-house artisans.",
+                action: () => navigateTo("contact"),
+                cta: "Enquire",
+              },
+            ].map((card) => (
+              <div key={card.title} className="flex flex-col justify-between rounded-2xl border border-rose-100/70 bg-white/80 p-6 transition-all hover:-translate-y-1 hover:border-rose-200">
+                <div className="space-y-3">
+                  <p className="text-xs uppercase tracking-[0.28em] text-gray-500">Services</p>
+                  <h3 className="text-xl font-semibold text-gray-900">{card.title}</h3>
+                  <p className="text-sm text-gray-600">{card.description}</p>
+                </div>
+                <button
+                  onClick={card.action}
+                  className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-rose-500 hover:text-rose-600"
+                >
+                  {card.cta}
+                  <ChevronRight className="h-4 w-4" />
+                </button>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="px-4 pb-16 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-7xl">
+          <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <p className="text-xs uppercase tracking-[0.3em] text-gray-500">Hand-picked</p>
+              <h2 className="mt-2 text-2xl font-semibold text-gray-900 sm:text-3xl">Bestselling Editions</h2>
+              <p className="mt-2 max-w-xl text-sm text-gray-600">
+                Our most-requested textures and shades, tested across climates and hair types.
+              </p>
+            </div>
             <button
               onClick={() => navigateTo("bestsellers")}
-              className="bg-rose-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-rose-700 transition"
+              className="inline-flex items-center gap-2 rounded-full border border-rose-200/80 px-5 py-2 text-sm font-semibold text-rose-600 transition hover:border-rose-300"
             >
-              View All Bestsellers
+              View Collection
+              <ChevronRight className="h-4 w-4" />
             </button>
           </div>
-        </div>
-      </section>
 
-      <section className="py-8 sm:py-12 md:py-16 lg:py-20 bg-gray-50">
-        <div className="w-full px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-6 sm:mb-8 md:mb-10 lg:mb-12">
-            <h2 className="text-2xl sm:text-3xl md:text-3xl lg:text-4xl font-bold text-gray-900 mb-3 md:mb-4">New Arrivals</h2>
-            <p className="text-sm md:text-base text-gray-600 max-w-2xl mx-auto px-4">Discover our latest collection of premium hair extensions</p>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 md:gap-6 lg:gap-8">
-            {products.filter(p => p.isNew).map((product) => (
-              <div key={product.id} className="group cursor-pointer rounded-2xl shadow-lg overflow-hidden bg-white hover:shadow-2xl transition-all duration-300" onClick={() => handleProductClick(product)}>
-                <div className="relative overflow-hidden">
-                  <img src={product.image} alt={product.name} className="w-full h-56 sm:h-64 md:h-72 lg:h-80 object-cover group-hover:scale-110 transition-transform duration-500" />
-                  <div className="absolute top-3 right-3 md:top-4 md:right-4 bg-green-600 text-white px-2.5 py-1 md:px-3 md:py-1 rounded-full text-xs font-semibold flex items-center gap-1">
-                    <Sparkles className="w-3 h-3 fill-current" /> New
+          <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {products
+              .filter((product) => product.isBestseller)
+              .slice(0, 3)
+              .map((product) => (
+                <button
+                  key={product.id}
+                  onClick={() => handleProductClick(product)}
+                  className="group overflow-hidden rounded-3xl border border-rose-100/60 bg-white/70 text-left shadow-[0_30px_80px_-70px_rgba(242,92,141,0.75)] transition-all hover:-translate-y-1 hover:border-rose-200"
+                >
+                  <div className="relative h-64 overflow-hidden">
+                    <img
+                      src={product.image}
+                      alt={product.name}
+                      className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    />
+                    <span className="absolute right-4 top-4 inline-flex items-center gap-1 rounded-full bg-rose-500 px-3 py-1 text-xs font-semibold text-white shadow-lg">
+                      <Star className="h-3 w-3" /> Bestseller
+                    </span>
                   </div>
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                  <div className="absolute bottom-0 left-0 right-0 p-3 sm:p-4 md:p-5 lg:p-6">
-                    <h3 className="text-lg sm:text-xl md:text-xl lg:text-2xl font-bold text-white mb-1.5 md:mb-2 truncate">{product.name}</h3>
-                    <p className="text-white text-base md:text-lg font-semibold mb-1.5 md:mb-2">{convertPrice(product.price)}</p>
-                    <button className="text-white underline hover:no-underline text-xs sm:text-sm md:text-base">Shop Now →</button>
+                  <div className="space-y-3 p-6">
+                    <div className="space-y-1">
+                      <h3 className="text-lg font-semibold text-gray-900">{product.name}</h3>
+                      <p className="text-sm uppercase tracking-[0.25em] text-gray-400">{product.category}</p>
+                    </div>
+                    <p className="text-base font-semibold text-rose-500">{convertPrice(product.price)}</p>
+                    <span className="inline-flex items-center gap-2 text-sm font-semibold text-rose-500">
+                      Explore Details
+                      <ChevronRight className="h-4 w-4" />
+                    </span>
                   </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="py-8 sm:py-12 md:py-16 lg:py-20 bg-gray-50">
-        <div className="w-full px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl sm:text-3xl md:text-3xl lg:text-4xl font-bold text-gray-900 mb-3 md:mb-4 text-center">Featured Collections</h2>
-          <p className="text-sm md:text-base text-gray-600 text-center mb-6 sm:mb-8 md:mb-10 lg:mb-12 max-w-2xl mx-auto px-4">Discover our premium hair extensions in various textures to match your style</p>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 md:gap-6 lg:gap-8">
-            {[
-              { type: "Straight", image: "https://raw.githubusercontent.com/prabhav0001/deecee-src/refs/heads/main/straight.jpg" },
-              { type: "Wavy", image: "https://raw.githubusercontent.com/prabhav0001/deecee-src/refs/heads/main/wavy.jpg" },
-              { type: "Curly", image: "https://raw.githubusercontent.com/prabhav0001/deecee-src/refs/heads/main/curly.jpg" },
-            ].map((item) => (
-              <div key={item.type} className="group cursor-pointer" onClick={() => { setFilterCategory(item.type.toLowerCase()); setCurrentPage("shop"); }}>
-                <div className="relative overflow-hidden rounded-2xl shadow-lg">
-                  <img src={item.image} alt={item.type} className="w-full h-56 sm:h-64 md:h-72 lg:h-80 object-cover group-hover:scale-110 transition duration-500" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                  <div className="absolute bottom-0 left-0 right-0 p-3 sm:p-4 md:p-5 lg:p-6">
-                    <h3 className="text-lg sm:text-xl md:text-xl lg:text-2xl font-bold text-white mb-1.5 md:mb-2">{item.type} Extensions</h3>
-                    <button className="text-white underline hover:no-underline text-xs sm:text-sm md:text-base">Shop Now →</button>
-                  </div>
-                </div>
-              </div>
-            ))}
+                </button>
+              ))}
           </div>
         </div>
       </section>
 
-      <section className="py-8 sm:py-12 md:py-16 lg:py-20 bg-gray-100">
-        <div className="w-full px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-6 sm:mb-8 md:mb-10 lg:mb-12">
-            <h2 className="text-2xl sm:text-3xl md:text-3xl lg:text-4xl font-bold text-gray-900 mb-3 md:mb-4">Mans Collection</h2>
-            <p className="text-sm md:text-base text-gray-600 max-w-2xl mx-auto px-4">Premium hair solutions designed specifically for men</p>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 md:gap-6 lg:gap-8">
-            {products.filter(p => p.isMans).map((product) => (
-              <div key={product.id} className="group cursor-pointer rounded-2xl shadow-lg overflow-hidden bg-white hover:shadow-2xl transition-all duration-300" onClick={() => handleProductClick(product)}>
-                <div className="relative overflow-hidden">
-                  <img src={product.image} alt={product.name} className="w-full h-56 sm:h-64 md:h-72 lg:h-80 object-cover group-hover:scale-110 transition-transform duration-500" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                  <div className="absolute bottom-0 left-0 right-0 p-3 sm:p-4 md:p-5 lg:p-6">
-                    <h3 className="text-lg sm:text-xl md:text-xl lg:text-2xl font-bold text-white mb-1.5 md:mb-2 truncate">{product.name}</h3>
-                    <p className="text-white text-base md:text-lg font-semibold mb-1.5 md:mb-2">{convertPrice(product.price)}</p>
-                    <button className="text-white underline hover:no-underline text-xs sm:text-sm md:text-base">Shop Now →</button>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-          <div className="text-center mt-6 md:mt-8">
+      <section className="px-4 pb-16 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-7xl">
+          <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <p className="text-xs uppercase tracking-[0.3em] text-gray-500">Fresh arrivals</p>
+              <h2 className="mt-2 text-2xl font-semibold text-gray-900 sm:text-3xl">New Season Textures</h2>
+              <p className="mt-2 max-w-xl text-sm text-gray-600">
+                Limited edition lengths and bespoke blends, available while quantities last.
+              </p>
+            </div>
             <button
-              onClick={() => { setFilterCategory("mans"); setCurrentPage("shop"); }}
-              className="bg-rose-600 text-white px-5 md:px-6 py-2.5 md:py-3 rounded-lg font-semibold hover:bg-rose-700 transition text-sm md:text-base"
+              onClick={() => navigateTo("shop")}
+              className="inline-flex items-center gap-2 rounded-full border border-rose-200/80 px-5 py-2 text-sm font-semibold text-rose-600 transition hover:border-rose-300"
             >
-              View All Mans Products
+              Shop All
+              <ChevronRight className="h-4 w-4" />
             </button>
+          </div>
+
+          <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {products
+              .filter((product) => product.isNew)
+              .slice(0, 3)
+              .map((product) => (
+                <button
+                  key={product.id}
+                  onClick={() => handleProductClick(product)}
+                  className="group overflow-hidden rounded-3xl border border-rose-100/60 bg-white/70 text-left shadow-[0_30px_80px_-70px_rgba(242,92,141,0.75)] transition-all hover:-translate-y-1 hover:border-rose-200"
+                >
+                  <div className="relative h-64 overflow-hidden">
+                    <img
+                      src={product.image}
+                      alt={product.name}
+                      className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    />
+                    <span className="absolute right-4 top-4 inline-flex items-center gap-1 rounded-full bg-green-500 px-3 py-1 text-xs font-semibold text-white shadow-lg">
+                      <Sparkles className="h-3 w-3" /> New
+                    </span>
+                  </div>
+                  <div className="space-y-3 p-6">
+                    <div className="space-y-1">
+                      <h3 className="text-lg font-semibold text-gray-900">{product.name}</h3>
+                      <p className="text-sm uppercase tracking-[0.25em] text-gray-400">{product.category}</p>
+                    </div>
+                    <p className="text-base font-semibold text-rose-500">{convertPrice(product.price)}</p>
+                    <span className="inline-flex items-center gap-2 text-sm font-semibold text-rose-500">
+                      Explore Details
+                      <ChevronRight className="h-4 w-4" />
+                    </span>
+                  </div>
+                </button>
+              ))}
           </div>
         </div>
       </section>
 
-      <section className="py-12 sm:py-20 bg-gray-100">
-        <div className="w-full px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-8 sm:mb-12 text-center">Style Inspiration & Reels</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
+      <section className="px-4 pb-16 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-7xl rounded-3xl border border-rose-100/60 bg-white/80 p-8 shadow-[0_36px_90px_-70px_rgba(242,92,141,0.8)]">
+          <div className="flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
+            <div className="max-w-xl space-y-4">
+              <p className="text-xs uppercase tracking-[0.3em] text-gray-500">Collections</p>
+              <h2 className="text-2xl font-semibold text-gray-900 sm:text-3xl">Curated For Every Texture</h2>
+              <p className="text-sm text-gray-600">
+                Select a category to explore extensions refined by our specialists for natural movement and seamless blending.
+              </p>
+            </div>
+            <div className="grid w-full gap-4 sm:grid-cols-3">
+              {[
+                { type: "Straight", image: "https://raw.githubusercontent.com/prabhav0001/deecee-src/refs/heads/main/straight.jpg" },
+                { type: "Wavy", image: "https://raw.githubusercontent.com/prabhav0001/deecee-src/refs/heads/main/wavy.jpg" },
+                { type: "Curly", image: "https://raw.githubusercontent.com/prabhav0001/deecee-src/refs/heads/main/curly.jpg" },
+              ].map((collection) => (
+                <button
+                  key={collection.type}
+                  onClick={() => {
+                    setFilterCategory(collection.type.toLowerCase());
+                    setCurrentPage("shop");
+                  }}
+                  className="group overflow-hidden rounded-2xl border border-rose-100/70 bg-white/60 text-left transition-all hover:-translate-y-1 hover:border-rose-200"
+                >
+                  <div className="relative h-40 overflow-hidden">
+                    <img
+                      src={collection.image}
+                      alt={`${collection.type} hair extensions`}
+                      className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
+                    <span className="absolute bottom-4 left-4 text-lg font-semibold text-white">
+                      {collection.type}
+                    </span>
+                  </div>
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="px-4 pb-16 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-7xl">
+          <h2 className="text-center text-2xl font-semibold text-gray-900 sm:text-3xl">Style Stories</h2>
+          <p className="mx-auto mt-3 max-w-2xl text-center text-sm text-gray-600">
+            Discover how our community styles DEECEE Hair across shoots, celebrations, and everyday luxury moments.
+          </p>
+          <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {reelsVideos.map((video) => (
               <VideoReelCard key={video.id} video={video} />
             ))}
@@ -639,26 +791,38 @@ function DeeceeHairApp(): React.ReactElement {
         </div>
       </section>
 
-      <section className="py-12 sm:py-20 bg-rose-50">
-        <div className="w-full px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-8 sm:mb-12 text-center">What Our Customers Say</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
-            {[
-              { name: "Priya S.", review: "Amazing quality! The hair extensions blend perfectly with my natural hair." },
-              { name: "Anjali M.", review: "Best purchase ever! The texture is so soft and natural looking." },
-              { name: "Neha K.", review: "Excellent service and the hair quality is outstanding. Highly recommend!" },
-            ].map((testimonial, index) => (
-              <div key={index} className="bg-white p-4 sm:p-6 rounded-2xl shadow-md hover:shadow-lg transition-shadow duration-300">
-                <div className="flex mb-4">{Array.from({ length: 5 }).map((_, i) => (<Star key={i} className="w-4 h-4 sm:w-5 sm:h-5 text-yellow-400 fill-current" />))}</div>
-                <p className="text-gray-700 mb-4 italic text-sm sm:text-base">\"{testimonial.review}\"</p>
-                <p className="font-semibold text-gray-900 text-sm sm:text-base">- {testimonial.name}</p>
-              </div>
-            ))}
+      <section className="px-4 pb-20 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-7xl rounded-3xl border border-white/40 bg-gradient-to-br from-white via-white/90 to-rose-50/60 p-8 shadow-[0_36px_90px_-70px_rgba(242,92,141,0.75)]">
+          <div className="flex flex-col gap-10 lg:flex-row lg:items-center lg:justify-between">
+            <div className="max-w-xl space-y-4">
+              <p className="text-xs uppercase tracking-[0.3em] text-gray-500">Client Notes</p>
+              <h2 className="text-2xl font-semibold text-gray-900 sm:text-3xl">Loved by discerning stylists worldwide</h2>
+              <p className="text-sm text-gray-600">
+                Every testimonial arrives from a real transformation session. We craft for longevity, comfort, and finish that feels uniquely yours.
+              </p>
+            </div>
+            <div className="grid w-full gap-4 md:grid-cols-3">
+              {[
+                { name: "Priya", review: "The smoothest install I have ever had. Zero shedding even after weeks of styling." },
+                { name: "Harper", review: "My salon clients request DEECEE by name. The colour blends are unmatched." },
+                { name: "Maya", review: "Customer care guided me perfectly on maintenance. The hair still feels brand new." },
+              ].map((testimonial) => (
+                <div key={testimonial.name} className="flex h-full flex-col justify-between rounded-2xl border border-rose-100/80 bg-white/80 p-6 backdrop-blur-xl">
+                  <div className="flex items-center gap-1 text-rose-500">
+                    {Array.from({ length: 5 }).map((_, index) => (
+                      <Star key={index} className="h-4 w-4 fill-current" />
+                    ))}
+                  </div>
+                  <p className="mt-4 text-sm text-gray-600">“{testimonial.review}”</p>
+                  <p className="mt-6 text-sm font-semibold text-gray-900">{testimonial.name}</p>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
     </div>
-  ), [currentSlide, navigateTo, convertPrice]);
+  ), [convertPrice, currentSlide, handleProductClick, navigateTo, setCurrentPage, setCurrentSlide, setFilterCategory]);
 
   return (
     <div className="min-h-screen bg-white text-gray-900 font-sans">
