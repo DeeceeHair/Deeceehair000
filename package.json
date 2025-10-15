@@ -35,3 +35,38 @@
     "node": ">=16"
   }
 }
+
+import request from 'supertest';
+import { app } from '../index.js'; // Assuming app is exported from index.js
+
+// Mock the Firebase Admin SDK to prevent initialization errors during tests
+jest.mock('firebase-admin', () => ({
+  initializeApp: jest.fn(),
+  credential: {
+    cert: jest.fn(),
+  },
+  auth: () => ({
+    verifyIdToken: jest.fn().mockResolvedValue({ uid: 'test-uid' }),
+  }),
+}));
+
+describe('GET /', () => {
+  it('should respond with a success message and timestamp', async () => {
+    const response = await request(app)
+      .get('/')
+      .expect('Content-Type', /json/)
+      .expect(200);
+
+    expect(response.body).toHaveProperty('message', 'Backend server is running successfully!');
+    expect(response.body).toHaveProperty('timestamp');
+  });
+});
+
+// We need a way to close the server after tests are done, especially if index.js starts listening.
+// A better practice is to export the app without starting the server, and have a separate start file.
+// For now, let's just ensure our test environment doesn't hang.
+afterAll(done => {
+  // If your server has a close method, you'd call it here.
+  // Since we are just testing the express app object, we don't have a server to close.
+  done();
+});
